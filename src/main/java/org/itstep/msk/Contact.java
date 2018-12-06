@@ -22,4 +22,9 @@ public final class Contact {
     public String getPhone() {
         return phone;
     }
+
+    @Override
+    public String toString() {
+        return name+" "+phone;
+    }
 }

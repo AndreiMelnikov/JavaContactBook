@@ -1,4 +1,6 @@
-package org.itstep.msk;
+package org.itstep.msk.contact_book;
+
+import org.itstep.msk.Contact;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,6 +15,7 @@ import java.util.Collections;
  * */
 public final class ArrayContactBook implements SimpleContactBook {
     private final ArrayList<Contact> contacts;
+
 
     public ArrayContactBook(ArrayList<Contact> contacts) {
         this.contacts = contacts;

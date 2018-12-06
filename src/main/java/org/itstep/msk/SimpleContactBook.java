@@ -1,4 +1,6 @@
-package org.itstep.msk;
+package org.itstep.msk.contact_book;
+
+import org.itstep.msk.Contact;
 
 /**
  * The main idea of the project:

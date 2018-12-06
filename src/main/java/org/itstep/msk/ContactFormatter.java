@@ -1,4 +1,4 @@
-package org.itstep.msk;
+package org.itstep.msk.contact_formatter;
 
 import java.io.PrintWriter;
 

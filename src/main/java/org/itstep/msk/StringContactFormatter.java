@@ -1,4 +1,7 @@
-package org.itstep.msk;
+package org.itstep.msk.contact_formatter;
+
+import org.itstep.msk.Contact;
+import org.itstep.msk.contact_formatter.ContactFormatter;
 
 import java.io.PrintWriter;
 
@@ -8,7 +11,7 @@ import java.io.PrintWriter;
  * @author Марк Михайлович
  * @version 1.0
  * */
-public final class StringContactFormatter implements ContactFormatter{
+public final class StringContactFormatter implements ContactFormatter {
     private final Contact origin;
     private final int nameLength, phoneLength;
 

@@ -1,9 +1,11 @@
 package org.itstep.msk;
 
+import org.itstep.msk.FindByNameTreeMapSpecification.*;
+import org.itstep.msk.contact_book.*;
+import org.itstep.msk.contact_formatter.*;
+import org.itstep.msk.contact_formatter_factory.*;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+import java.util.*;
 
 /**
  * Application main class
@@ -41,17 +43,63 @@ public final class App {
         contacts.add(new Contact("Hercule Poirot","8 800 900 99 99"));
         contacts.add(new Contact("Mary Debenham","+19 900 999 99 99"));
         contacts.add(new Contact("Mrs. Hubbard","+23 900 999-99-99"));
+//=======================================================================================
+/**
+ * Работа c фаилом (FileContactBook)
+ * Необходимо прописать верный путь к фаилу
+ * */
+
+if(false) {
+    SimpleContactBook fileContactBook = new FileContactBook(contacts, "D:\\Java\\ContactBookProject\\JavaContactBook-devel\\src\\FileContactBook.txt", " %% ");
+    fileContactBook.commit();
+    AbstractContactFormatterFactory factory1 = new FileContactFormatterFactory();
+    Iterable<ContactFormatter> decoracor1 = new ContactFormatterIterableDecorator(fileContactBook.read(), factory1);
+    printContacts(decoracor1, new PrintWriter(System.out));
+}
+//=======================================================================================
+/**
+* Работа со списками (ArrayContactBook)
+* */
+
+if(false){
+    SimpleContactBook arrayContactBook = new ArrayContactBook(contacts);
+    StringContactFormatterFactory factory2 = new StringContactFormatterFactory();
+    Iterable<ContactFormatter> decoracor2 = new ContactFormatterIterableDecorator(arrayContactBook.read(), factory2);
+    printContacts(decoracor2, new PrintWriter(System.out));
+}
+//=======================================================================================
+/**
+ * Работа c TreeMapContactBook и спецификациями
+ * Спецификация поиска по имени(FindByNameTreeMapSpecification)
+ * поиска по префиксу (NameStartsWithTreeMapSpecification)
+ * */
 
 //=======================================================================================
-        SimpleContactBook contactBook = new ArrayContactBook(contacts);
-//=======================================================================================
+ if(false) {
+     TreeMap<String, Contact> map = new TreeMap<>();
+     for (Contact con : contacts) {
+         map.put(con.getName(), con);
+            }
+     SpecificationContactBook treeMapBook = new TreeMapContactBook(map); //Получения Map из готового списка
 
-        printContacts(
-                StreamSupport.stream(contactBook.read().spliterator(),true)
-                        .map(x->new StringContactFormatter(x,18,20))
-                        .collect(Collectors.toList())
-                ,new PrintWriter(System.out)
-        );
+     ContactSpecification specification1 = new FindByNameTreeMapSpecification("Иван");
+     AbstractContactFormatterFactory factory3 = new StringContactFormatterFactory();
+     Iterable<ContactFormatter> decorator3 = new SpecificationContactFormatterDecorator(treeMapBook, specification1, factory3);
+     printContacts(decorator3, new PrintWriter(System.out));
+     }
+// =======================================================================================
+ if(false) {
+     TreeMap<String, Contact> map = new TreeMap<>();
+     for (Contact con : contacts) {
+          map.put(con.getName(), con);
+          }
 
+    SpecificationContactBook treeMapBook = new TreeMapContactBook(map); //Получения Map из готового списка
+
+    ContactSpecification specification2 = new NameStartsWithTreeMapSpecification("Ив");
+    AbstractContactFormatterFactory factory4 = new StringContactFormatterFactory();
+    Iterable<ContactFormatter> decorator4 = new SpecificationContactFormatterDecorator(treeMapBook, specification2, factory4);
+    printContacts(decorator4, new PrintWriter(System.out));
+        }
     }
 }
